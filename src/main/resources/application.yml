@@ -1,0 +1,4 @@
+# YML configuration file for Spring Boot application
+spring:
+  application:
+    name: api-spring-boot

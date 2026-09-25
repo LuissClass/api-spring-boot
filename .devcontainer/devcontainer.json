@@ -1,5 +1,5 @@
 {
-  "name": "Primer API Java Dev Container",
+  "name": "API Spring Boot Dev Container",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspace",
