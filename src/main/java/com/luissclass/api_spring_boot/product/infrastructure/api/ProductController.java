@@ -12,6 +12,6 @@ public interface ProductController {
     public ResponseEntity<List<ProductDto>> getAllProducts();
     public ResponseEntity<ProductDto> getProductById(@PathVariable Long id);
     public ResponseEntity<Void> saveProduct(@RequestBody ProductDto productDto);
-    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto);
+    public ResponseEntity<Void> updateProduct(@RequestBody ProductDto productDto);
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id);
 }

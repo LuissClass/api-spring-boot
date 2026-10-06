@@ -36,9 +36,10 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Product save(Product product) {
-        products.add(productEntityMapper.toProductEntity(product));
-        return product;
+    public void upsert(Product product) {
+        ProductEntity productEntity = productEntityMapper.toProductEntity(product);
+        products.removeIf(p -> p.getId().equals(productEntity.getId()));
+        products.add(productEntity);
     }
 
     @Override

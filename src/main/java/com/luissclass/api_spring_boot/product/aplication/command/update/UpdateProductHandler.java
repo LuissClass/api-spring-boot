@@ -1,4 +1,4 @@
-package com.luissclass.api_spring_boot.product.aplication.command.create;
+package com.luissclass.api_spring_boot.product.aplication.command.update;
 
 import org.springframework.stereotype.Service;
 
@@ -10,19 +10,19 @@ import lombok.RequiredArgsConstructor;
 
 @Service 
 @RequiredArgsConstructor
-public class CreateProductHandler implements RequestHandler<CreateProductRequest, Void> {
+public class UpdateProductHandler implements RequestHandler<UpdateProductRequest, Void>{
     private final ProductRepository productRepository;
 
     @Override
-    public Void handle(CreateProductRequest request) {
+    public Void handle(UpdateProductRequest request) {
         Product product = new Product(request.id(), request.name(), request.description(), request.price(), request.image());
         productRepository.upsert(product);
         return null;
     }
 
     @Override
-    public Class<CreateProductRequest> getRequestType() {
-        return CreateProductRequest.class;
+    public Class<UpdateProductRequest> getRequestType() {
+        return UpdateProductRequest.class;
     }
-
+    
 }

@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.luissclass.api_spring_boot.common.mediator.Mediator;
 import com.luissclass.api_spring_boot.product.aplication.command.create.CreateProductRequest;
+import com.luissclass.api_spring_boot.product.aplication.command.delete.DeleteProductRequest;
+import com.luissclass.api_spring_boot.product.aplication.command.update.UpdateProductRequest;
+import com.luissclass.api_spring_boot.product.aplication.query.getAll.GetAllProductRequest;
+import com.luissclass.api_spring_boot.product.aplication.query.getAll.GetAllProductResponse;
 import com.luissclass.api_spring_boot.product.aplication.query.getById.GetProductByIdRequest;
 import com.luissclass.api_spring_boot.product.aplication.query.getById.GetProductByIdResponse;
 import com.luissclass.api_spring_boot.product.infrastructure.api.dto.ProductDto;
@@ -33,7 +37,10 @@ public class ProductControllerImpl implements ProductController {
 
         @GetMapping("")
         public ResponseEntity<List<ProductDto>> getAllProducts() {
-                return ResponseEntity.ok(null);
+                GetAllProductResponse response = mediator.dispatch(new GetAllProductRequest());
+                List<ProductDto> productsDtos = response.products()
+                .stream().map(productMapper::toProductDto).toList();
+                return ResponseEntity.ok(productsDtos);
         }
 
         @GetMapping("/{id}")
@@ -52,12 +59,17 @@ public class ProductControllerImpl implements ProductController {
         }
 
         @PutMapping("")
-        public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
-                return ResponseEntity.ok(null);
+        public ResponseEntity<Void> updateProduct(@RequestBody ProductDto productDto) {
+                UpdateProductRequest request = productMapper.toUpdateProductRequest(productDto);
+                mediator.dispatch(request);
+                return ResponseEntity.noContent().build();
         }
 
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+                DeleteProductRequest request = productMapper.toDeleteProductRequest(id);
+                mediator.dispatch(request);
+
                 return ResponseEntity.noContent().build();
         }
 }
